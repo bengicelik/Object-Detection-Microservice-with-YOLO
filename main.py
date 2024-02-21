@@ -18,3 +18,8 @@ def encode_image_to_base64(image):
 
 @app.post("/detect/")
 async def detect_objects():
+
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
