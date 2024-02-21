@@ -67,6 +67,10 @@ async def detect_objects(file: UploadFile = File(...)):
     input_tensor = np.expand_dims(image_np, axis=0)
 
 
+    ort_inputs = {ort_session.get_inputs()[0].name: input_tensor}
+    ort_outs = ort_session.run(None, ort_inputs)
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
