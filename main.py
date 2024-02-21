@@ -83,6 +83,9 @@ async def detect_objects(file: UploadFile = File(...)):
     if label and label.lower() != "all":
         results_data = [obj for obj in results_data if obj["label"].lower() == label.lower()]
 
+    if not results_data:
+        raise HTTPException(status_code=404, detail=f"No objects with label '{label}' found")
+
     image_processed = draw_boxes(image, results_data)
     image_base64 = encode_image_to_base64(image_processed)
 
