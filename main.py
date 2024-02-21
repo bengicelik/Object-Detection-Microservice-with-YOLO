@@ -19,6 +19,15 @@ def encode_image_to_base64(image):
     img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
     return img_str
 
+def draw_boxes(image, results_data):
+    draw = ImageDraw.Draw(image)
+    for obj in results_data:
+        top_left = (obj['x'], obj['y'])
+        bottom_right = (obj['x'] + obj['width'], obj['y'] + obj['height'])
+        draw.rectangle([top_left, bottom_right], outline="blue", width=2)
+        draw.text((obj['x'], obj['y']), f"{obj['label']} {obj['confidence']:.2f}", fill="red")
+    return image
+
 LABELS = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck',
           8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench',
           14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear',
@@ -72,6 +81,9 @@ async def detect_objects(file: UploadFile = File(...)):
     results_data = process_model_output(ort_outs)
     if label and label.lower() != "all":
         results_data = [obj for obj in results_data if obj["label"].lower() == label.lower()]
+
+    image_processed = draw_boxes(image, results_data)
+    image_base64 = encode_image_to_base64(image_processed)
 
 
 if __name__ == "__main__":
