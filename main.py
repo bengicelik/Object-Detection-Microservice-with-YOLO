@@ -79,12 +79,20 @@ async def detect_objects(file: UploadFile = File(...)):
     ort_outs = ort_session.run(None, ort_inputs)
 
     results_data = process_model_output(ort_outs)
+
     if label and label.lower() != "all":
         results_data = [obj for obj in results_data if obj["label"].lower() == label.lower()]
 
     image_processed = draw_boxes(image, results_data)
     image_base64 = encode_image_to_base64(image_processed)
 
+    result = {
+        "image": image_base64,
+        "objects": results_data,
+        "count": len(results_data)
+    }
+
+    return JSONResponse(content=result)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
