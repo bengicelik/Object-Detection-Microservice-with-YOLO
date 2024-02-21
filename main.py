@@ -33,15 +33,14 @@ def process_model_output(model_output):
     detected_objects = []
     for detection in model_output[0][0]:
         x_center, y_center, width, height, obj_confidence = detection[:5]
-        detected_objects.append({
-            "x_center": x_center, "y_center": y_center,
-            "width": width, "height": height, "confidence": obj_confidence
-        })
+        class_probabilities = detection[5:]
+        class_id = np.argmax(class_probabilities)
+        class_confidence = class_probabilities[class_id]
 
-        if obj_confidence > 0.5:
+        if obj_confidence > 0.5 and class_confidence > 0.5:
             detected_objects.append({
                 "label": label,
-                "confidence": float(obj_confidence),
+                "confidence": float(obj_confidence * class_confidence),
                 "x": float(x_center - width / 2),
                 "y": float(y_center - height / 2),
                 "width": float(width),
