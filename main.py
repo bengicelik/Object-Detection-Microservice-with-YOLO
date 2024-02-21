@@ -56,7 +56,9 @@ def process_model_output(model_output):
     return detected_objects
 
 @app.post("/detect/")
-async def detect_objects():
+async def detect_objects(file: UploadFile = File(...)):
+    return {"message": "Hello"}
+
 
 
 
