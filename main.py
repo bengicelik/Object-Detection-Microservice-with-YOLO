@@ -37,8 +37,17 @@ def process_model_output(model_output):
             "x_center": x_center, "y_center": y_center,
             "width": width, "height": height, "confidence": obj_confidence
         })
-    return detected_objects
 
+        if obj_confidence > 0.5:
+            detected_objects.append({
+                "label": label,
+                "confidence": float(obj_confidence),
+                "x": float(x_center - width / 2),
+                "y": float(y_center - height / 2),
+                "width": float(width),
+                "height": float(height)
+            })
+    return detected_objects
 
 @app.post("/detect/")
 async def detect_objects():
