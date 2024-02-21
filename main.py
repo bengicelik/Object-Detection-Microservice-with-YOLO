@@ -66,10 +66,12 @@ async def detect_objects(file: UploadFile = File(...)):
     image_np = np.transpose(image_np, (2, 0, 1))
     input_tensor = np.expand_dims(image_np, axis=0)
 
-
     ort_inputs = {ort_session.get_inputs()[0].name: input_tensor}
     ort_outs = ort_session.run(None, ort_inputs)
 
+    results_data = process_model_output(ort_outs)
+    if label and label.lower() != "all":
+        results_data = [obj for obj in results_data if obj["label"].lower() == label.lower()]
 
 
 if __name__ == "__main__":
