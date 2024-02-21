@@ -61,8 +61,10 @@ async def detect_objects(file: UploadFile = File(...)):
     image = Image.open(io.BytesIO(image_data)).convert("RGB")
     image_resized = image.resize((640, 640))
 
-    return {"message": "Hello"}
-
+    image_np = np.array(image_resized).astype(np.float32)
+    image_np = image_np / 255.0
+    image_np = np.transpose(image_np, (2, 0, 1))
+    input_tensor = np.expand_dims(image_np, axis=0)
 
 
 
