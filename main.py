@@ -4,6 +4,9 @@ import uvicorn
 import io
 import base64
 from PIL import Image
+import numpy as np
+import onnxruntime as ort
+import os
 
 app = FastAPI()
 
