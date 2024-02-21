@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 import uvicorn
 import io
 import base64
-from PIL import Image
+from PIL import Image, ImageDraw
 import numpy as np
 import onnxruntime as ort
 import os
@@ -57,6 +57,10 @@ def process_model_output(model_output):
 
 @app.post("/detect/")
 async def detect_objects(file: UploadFile = File(...)):
+    image_data = await file.read()
+    image = Image.open(io.BytesIO(image_data)).convert("RGB")
+    image_resized = image.resize((640, 640))
+
     return {"message": "Hello"}
 
 
