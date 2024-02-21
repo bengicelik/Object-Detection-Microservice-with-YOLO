@@ -29,6 +29,9 @@ LABELS = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5
           71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear',
           78: 'hair drier', 79: 'toothbrush'}
 
+def get_label_name(label_id):
+    return LABELS.get(label_id, "Unknown")
+
 def process_model_output(model_output):
     detected_objects = []
     for detection in model_output[0][0]:
@@ -36,6 +39,7 @@ def process_model_output(model_output):
         class_probabilities = detection[5:]
         class_id = np.argmax(class_probabilities)
         class_confidence = class_probabilities[class_id]
+        label = get_label_name(class_id)
 
         if obj_confidence > 0.5 and class_confidence > 0.5:
             detected_objects.append({
