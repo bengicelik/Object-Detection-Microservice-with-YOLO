@@ -92,5 +92,13 @@ pip install -r requirements.txt
 ```
 python export.py --weights yolov5s.pt --include onnx
 ```
+## How to Test
+1. Start the Microservice : `docker-compose up`
+2. Preparing the Request: Use a tool like Postman or cURL to send requests to your microservice. (explained in the `Using API` part above)
+3. You can find test image from test_images folder in project repository.
+4. Analyzing the Response: The microservice returns a JSON response containing:image,objects and count.
+5. Output image: The output image is form of base64 in the response. For visualizing you can use the tools like `base64 to image` converters on internet to get the visual by pasting the base64 code of output image.
+
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details 
