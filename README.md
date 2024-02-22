@@ -44,8 +44,10 @@ uvicorn main:app --reload
 ```
 
 The application will accessible at http://127.0.0.1:8000.
+## Accesing the Documentation
+* When server is running visit: http://127.0.0.1:8000/docs in browser to see the automatic API documentation provided by FastAPI.
 
-# Using API 
+# Using API
 - Send a POST request to /detect/ with an image file.
 - Receive a JSON response containing detected objects, their bounding boxes, and confidence scores.
 ### Example Request
