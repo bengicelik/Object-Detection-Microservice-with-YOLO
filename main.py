@@ -64,6 +64,36 @@ def process_model_output(model_output):
             })
     return detected_objects
 
+def non_maximum_suppression(objects, iou_threshold=0.5):
+    if len(objects) == 0:
+        return objects
+
+    objs = sorted(objects, key=lambda obj: obj['confidence'], reverse=True)
+    keep = []
+    while objs:
+        largest = objs.pop(0)
+        keep.append(largest)
+        objs = [obj for obj in objs if iou(largest, obj) < iou_threshold]
+    return keep
+
+def iou(boxA, boxB):
+    # determine the coordinates of the intersection rectangle
+    xA = max(boxA['x'], boxB['x'])
+    yA = max(boxA['y'], boxB['y'])
+    xB = min(boxA['x'] + boxA['width'], boxB['x'] + boxB['width'])
+    yB = min(boxA['y'] + boxA['height'], boxB['y'] + boxB['height'])
+
+    # compute the area of intersection
+    intersection = max(0, xB - xA) * max(0, yB - yA)
+
+    # compute the area of both bounding boxes
+    boxAArea = boxA['width'] * boxA['height']
+    boxBArea = boxB['width'] * boxB['height']
+
+    # compute the intersection over union
+    iou = intersection / float(boxAArea + boxBArea - intersection)
+    return iou
+
 @app.post("/detect/")
 async def detect_objects(file: UploadFile = File(...), label: str = Query(default=None)):
     image_data = await file.read()
@@ -79,6 +109,8 @@ async def detect_objects(file: UploadFile = File(...), label: str = Query(defaul
     ort_outs = ort_session.run(None, ort_inputs)
 
     results_data = process_model_output(ort_outs)
+    results_data = non_maximum_suppression(results_data)  # apply NMS
+
 
     if label and label.lower() != "all":
         results_data = [obj for obj in results_data if obj["label"].lower() == label.lower()]
