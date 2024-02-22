@@ -5,7 +5,13 @@
 * Bounding Boxes: Provides coordinates for bounding boxes around detected objects.
 * REST API: API for uploading images and receiving detailed detection information.
 * Docker Support: Dockerized for easy deployment and scaling.
-
+  
+## Project Structure
+Overview of main components:
+* `main.py`: main file of microservice where FastAPI app is runs.
+* `Dockerfile and docker-compose.yml`: for dockerizing the app.
+* `requirements.txt`: List of all libraries needed in project.
+  
 ## Get Start
 Follow instructions to get the project up and running on your local machine.
 
@@ -15,18 +21,27 @@ Follow instructions to get the project up and running on your local machine.
 * Git
 
 ## Installation
-* Clone repo: \
-`https://github.com/bengicelik/Object-Detection-Microservice-with-YOLO.git`\
-`cd Object-Detection-Microservice-with-YOLO`
-* Install requirements: \
-`pip install -r requirements.txt`
+* Clone repo: 
+```
+https://github.com/bengicelik/Object-Detection-Microservice-with-YOLO.git
+
+cd Object-Detection-Microservice-with-YOLO
+```
+* Install requirements:
+```
+pip install -r requirements.txt
+```
 
 ## Running the App
  * With Docker:\
-`docker-compose up --build`
+```
+docker-compose up --build
+```
 
-* Without Docker:\
-`uvicorn main:app --reload`
+* Without Docker:
+```
+uvicorn main:app --reload
+```
 
 The application will accessible at http://127.0.0.1:8000.
 
@@ -41,6 +56,39 @@ http://127.0.0.1:8000/detect/
 * or if you want to detect specific object type:\
 http://127.0.0.1:8000/detect/?label=dog
 
+For uploading image on postman:
+* In body part, select the form-data and add key with named 'file' change text to file at the right and upload an image from your local machine.
 
+After that when you send the request the example response format is like this: 
+```
+{
+  "image": "base64_encoded_image",
+  "objects": [
+    {
+      "label": "person",
+      "confidence": 0.99,
+      "x": 220,
+      "y": 34,
+      "width": 50,
+      "height": 72
+    }
+  ],
+  "count": 1
+}
+```
+## Converting YOLOv5 model to ONNX Format
+* Clone yolov5 repo:
+```
+git clone https://github.com/ultralytics/yolov5
+cd yolov5
+```
+* Install requirements:
+```
+pip install -r requirements.txt
+``` 
+* export model to onnx
+```
+python export.py --weights yolov5s.pt --include onnx
+```
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details 
