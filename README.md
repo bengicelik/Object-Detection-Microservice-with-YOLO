@@ -101,4 +101,5 @@ python export.py --weights yolov5s.pt --include onnx
 
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details 
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/bengicelik/Object-Detection-Microservice-with-YOLO/blob/develop/LICENCES.md)
+
