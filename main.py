@@ -10,7 +10,7 @@ import os
 
 app = FastAPI()
 
-model_path = os.path.join("Macintosh HD", os.sep, "Users", "beng", "Desktop", "case", "yolov5s.onnx")
+model_path = "/app/yolov5s.onnx"
 ort_session = ort.InferenceSession(model_path)
 
 def encode_image_to_base64(image):
