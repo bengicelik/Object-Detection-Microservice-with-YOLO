@@ -65,7 +65,7 @@ def process_model_output(model_output):
     return detected_objects
 
 @app.post("/detect/")
-async def detect_objects(file: UploadFile = File(...)):
+async def detect_objects(file: UploadFile = File(...), label: str = Query(default=None)):
     image_data = await file.read()
     image = Image.open(io.BytesIO(image_data)).convert("RGB")
     image_resized = image.resize((640, 640))
