@@ -14,10 +14,10 @@ Follow instructions to get the project up and running on your local machine.
 * Docker and Docker Compose 
 * Git
 
-## Installation DÜZELTTTT
+## Installation
 * Clone repo: \
-`git clone https://github.com/bengiscelik/object-detection-microservice.git `\
-`cd object-detection-microservice`
+`https://github.com/bengicelik/Object-Detection-Microservice-with-YOLO.git`\
+`cd Object-Detection-Microservice-with-YOLO`
 * Install requirements: \
 `pip install -r requirements.txt`
 
@@ -28,7 +28,7 @@ Follow instructions to get the project up and running on your local machine.
 * Without Docker:\
 `uvicorn main:app --reload`
 
-The application will accessible at http://localhost:8000.
+The application will accessible at http://127.0.0.1:8000.
 
 # Using API 
 - Send a POST request to /detect/ with an image file.
@@ -37,7 +37,7 @@ The application will accessible at http://localhost:8000.
 Using Postman :
 * Set request type to POST.
 * If you want to detect all object enter this url:\
-[http://localhost:8000/detect/](http://127.0.0.1:8000/detect/)
+http://127.0.0.1:8000/detect/
 * or if you want to detect specific object type:\
 http://127.0.0.1:8000/detect/?label=dog
 
